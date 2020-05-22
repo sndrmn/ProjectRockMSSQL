@@ -50,7 +50,6 @@
                 <h2 class="major">Connect to MSSQL</h2>
                 <?php 
                 session_start();
-
                 if ($_SESSION['ep'] != "") {
                     $ep = $_SESSION['ep'];
                     $db = $_SESSION['db'];
@@ -73,13 +72,17 @@
             <article id="popmssql">
                 <h2 class="major">Populate MSSQL</h2>
                 <span class="image main"><img src="images/Teremana.png" alt="" /></span>
-                <?php
-                include("popmssql.php");
+                <?php 
+                if ($_SESSION['ep'] != "") {
+                    $ep = $_SESSION['ep'];
+                    $db = $_SESSION['db'];
+                    $un = $_SESSION['un'];
+                    $pa = $_SESSION['pa'];
+                    echo nl2br("<form method=post action=popmssql.php> <input type=submit name=populate value=Teremana> </form>");
+                } else {
+                    echo nl2br("Not Connected to MSSQL");
+                } 
                 ?>
-                <form method="post">
-                    <button type="submit" name="populate" value="Populate DB">
-                </form>
-                <br>
 
             </article>
         </div>
