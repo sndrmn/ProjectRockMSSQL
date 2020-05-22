@@ -59,7 +59,7 @@
  
                     $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    echo nl2br("<span class=image main><img src=images/fistbump.jpg width=200 height=200 /></span>");
+                    echo nl2br("<span class=image main><img src=images/fistbump.png width=200 height=200 /></span>");
                     echo nl2br("<br><br>&nbsp DB connection successful to: &nbsp <strong><i>$ep</i></strong>");
                 } else {
                     include ('settings-form.php');
