@@ -32,7 +32,7 @@
             <nav>
                 <ul>
                     <li><a href="#mssql">Connect to MSSQL</a></li>
-                    <li><a href="#listmssql">List MSSQL Items</a></li>
+                    <li><a href="#popmssql">Populate MSSQL</a></li>
                     <li><a href="#mssql">Add MSSQL Items</a></li>
                     <li><a href="#mssql">Delete MSSQL Items</a></li>
                 </ul>
@@ -44,33 +44,46 @@
 
             <!-- mssql -->
             <article id="mssql">
-            	<h2 class="major">Connect to MSSQL</h2>
-                <?php
- 					session_start();
- 					$ep = $_POST['endpoint'];
- 					$db = $_POST['database'];
- 					$un = $_POST['username'];
- 					$pa = $_POST['password'];
+                <?php 
+                session_start();
+                $ep = $_POST['endpoint'];
+                $db = $_POST['database'];
+                $un = $_POST['username'];
+                $pa = $_POST['password'];
 
- 					$_SESSION['ep'] = $ep;
- 					$_SESSION['db'] = $db;
- 					$_SESSION['un'] = $un;
- 					$_SESSION['pa'] = $pa;
+                $_SESSION['ep'] = $ep;
+                $_SESSION['db'] = $db;
+                $_SESSION['un'] = $un;
+                $_SESSION['pa'] = $pa;
+ 
+                try {
+                        $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                        $result_str = strtoupper($ep);  
+                        echo nl2br("<h2 class=major> YOU DESERVE A FIST BUMP! </h2> <span class=image main><br><img src=images/fistbump.png width=200 height=200 /></span>");
+                        echo nl2br("<br><br>&nbsp WEB SERVER CONNECTED TO: &nbsp <strong><i>$result_str</i></strong>");
+                        echo "<script>window.location.href ='#mssql';</script>";
+                    } 
+                catch (PDOException $e) {
+                            print("Error connecting to SQL Server.");
+                            die(print_r($e));
+                    } 
+                ?>
+            </article>
 
- 					try {
-       						$conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
-       						$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-       						echo nl2br("<span class=image main><img src=images/fistbump.png width=200 height=200 /></span>");
-       						echo nl2br("<br><br>&nbsp DB connection successful to: &nbsp <strong><i>$ep</i></strong>");
-       						# Send them back to mssql article
-          					echo "<script>window.location.href ='#mssql';</script>";
-     					}
-       				catch (PDOException $e) {
-       						print("Error connecting to SQL Server.");
-       						die(print_r($e));
-     					} 
-				?> 
-			</article>
+            <!-- popmssql -->
+            <article id="popmssql">
+            <h2 class=major> Populate MSSQL </h2>
+            <span class="image main"> <img src="images/Teremana.png" alt="" /> </span> 
+            <?php 
+                if ($_SESSION['ep'] != "") {
+                    echo nl2br("<form method=post action=popmssql.php> <input type=submit name=populate value=Teremana> </form>");
+                } else {
+                    echo nl2br("Web Server Not Connected to MSSQL");
+                } 
+            ?>
+            </article>
+
 		</div>
 		<!-- Footer -->
         <footer id="footer">
