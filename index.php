@@ -118,8 +118,8 @@
                             //$int ++;
                             echo "<td> $row[Store]</td>";
                             echo "<td> $row[Stock]</td>";
-                            echo "  <td><a href=index.php?section=Teremana&function=edit&id=$row[$int]>Edit</a></td>";
-                            echo "  <td><a href='index.php?id= . $row . > $row[Stock] | <img src=images/rubbish.png /></a> </td>";
+                            echo "  <td><a href=index.php?id=$row> <img src=images/pencil.png /></a> </td>";
+                            echo "  <td><a href=index.php?id=$row> <img src=images/rubbish.png /></a> </td>";
                             echo "</tr>";
                       }
                       echo "</table>";
