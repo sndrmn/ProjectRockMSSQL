@@ -109,13 +109,13 @@
                       unset($stmt);
 
                       echo nl2br("Teremana SQL Table Created");
-                      header( "Location: index.php#popmssql" );
-                      //echo "<script>window.location.href ='#popmssql';</script>";
+                      //header( "Location: index.php#popmssql" );
+                      echo "<script>window.location.href ='#popmssql';</script>";
               }
               catch (PDOException $e) {
                       echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
-                      //echo "<script>window.location.href ='#popmssql';</script>";
-                      header( "Location: index.php#popmssql" );
+                      echo "<script>window.location.href ='#popmssql';</script>";
+                      //header( "Location: index.php#popmssql" );
               }
             }
           ?> 

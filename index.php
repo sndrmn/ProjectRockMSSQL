@@ -102,28 +102,44 @@
                       $stmt = $conn->query($query);
 
                       $result = $stmt-> fetchAll();
-                      $int = 0;
                       echo "<table><th>STORE</th><th>STOCK</th><th colspan=2>OPERATIONS</th>";
 
                       foreach( $result as $row ) {
                             echo "<tr>";
-                            //$int ++;
                             echo "<td> $row[Store]</td>";
                             echo "<td> $row[Stock]</td>";
-                            echo "  <td><a href=index.php?id=$row> <img src=images/pencil.png /></a> </td>";
-                            echo "  <td><a href=index.php?id=$row[Store]> <img src=images/rubbish.png /></a> </td>";
+                            echo "  <td><a href=index.php?store=$row[Store]&stock=$row[Stock]&function=edit> <img src=images/pencil.png /></a> </td>";
+                            echo "  <td><a href=index.php?store=$row[Store]&function=delete> <img src=images/rubbish.png /></a> </td>";
                             echo "</tr>";
                       }
                       echo "</table>";
-                      echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create Teremana Store</button>";
+                      echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create New Store</button>";
 
-                      if(isset($_GET['id'])){
-                       $store = $_GET['id']; 
-                       //$query = "DELETE FROM Teremana WHERE Store = 'Greenwich'";
+                      $function = $_GET["function"];
+                      $store = $_GET["store"];
+                      $stock = $_GET["stock"];
+
+                      if ($function = "delete") {
                        $query = "DELETE FROM Teremana WHERE Store = '$store'";
                        $stmt = $conn->query($query);
                        unset($stmt);
                        header( "Location: index.php#viewmssql" );
+                      } elseif ($function = "edit") {
+                         echo "<table><th>STORE</th><th>STOCK</th><th>OPERATIONS</th>";
+                         echo "<tr>";
+                         echo "<td><input type=text name=storeupdate value=$store </></td>";
+                         echo "<td><input type=text name=stockupdate value=$stock </></td>";
+                         echo "  <td><a href=index.php?id=$row[Store]&function=edit> <img src=images/floppy.png /></a> </td>";
+                         echo "</tr>"; 
+                         echo "</table>";
+
+                      }
+
+
+                      }
+
+
+
                       }
                     }
                     catch (PDOException $e) {
