@@ -85,6 +85,15 @@
             <article id="viewmssql">
                 <h2 class=major> View MSSQL Items</h2>
                 <?php 
+
+                $function = $_GET["function"];
+                $comic_id = $_GET["id"];
+                if ($function == "delete") {
+                $sql = "delete from COMIC where ID = $comic_id";
+                mysql_query($sql);
+                header('Location: index.php?section=comic');
+                }
+
                 session_start();
                 if ($_SESSION['ep'] != "") {
                     $ep = $_SESSION['ep'];
@@ -99,10 +108,25 @@
                       $tableName = 'Teremana';
                       $query = "SELECT * FROM $tableName";
                       $stmt = $conn->query($query);
-                      $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                      echo nl2br("$result");
-                      print_r($result);
-                      unset($stmt);
+
+                      $result = $stmt-> fetchAll();
+                      $int = 0;
+                      echo "<table><th>STORE</th><th>STOCK</th><th colspan=2>OPERATIONS</th>";
+
+                      foreach( $result as $row ) {
+                            echo "<tr>";
+                            //$int ++;
+                            echo "<td> $row[Store]</td>";
+                            echo "<td> $row[Stock]</td>";
+                            echo "  <td><a href=index.php?section=Teremana&function=edit&id=$row[$int]>Edit</a></td>";
+                            echo "  <td><a href='index.php?id= . $row . > $row[Stock] | <img src=images/rubbish.png /></a> </td>";
+                            echo "</tr>";
+                      }
+                      echo "</table>";
+                      echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create Teremana Store</button>";
+
+
+
                     }
                     catch (PDOException $e) {
                       echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
