@@ -33,8 +33,7 @@
                 <ul>
                     <li><a href="#mssql">Connect to MSSQL</a></li>
                     <li><a href="#popmssql">Populate MSSQL</a></li>
-                    <li><a href="#mssql">Add MSSQL Items</a></li>
-                    <li><a href="#mssql">Delete MSSQL Items</a></li>
+                    <li><a href="#viewmssql">View MSSQL Items</a></li>
                 </ul>
             </nav>
         </header>
@@ -76,32 +75,32 @@
               $un = $_SESSION['un'];
               $pa = $_SESSION['pa'];
 
-              try {
-                      $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+              $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
                       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+              try {
                       $tableName = 'Teremana';
-                      $query = "CREATE TABLE $tableName ([c1_int] sql_variant, [c2_varchar] sql_variant)";
+                      $query = "CREATE TABLE $tableName ([Stock] sql_variant, [Store] sql_variant)";
                       $stmt = $conn->query($query);
                       unset($stmt);
 
-                      $query = "INSERT INTO [$tableName] (c1_int, c2_varchar) VALUES (10, 'North Sydney')";
+                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (10, 'North Sydney')";
                       $stmt = $conn->query($query);
                       unset($stmt);
 
-                      $query = "INSERT INTO [$tableName] (c1_int, c2_varchar) VALUES (20, 'Greenwich')";
+                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (20, 'Greenwich')";
                       $stmt = $conn->query($query);
                       unset($stmt);
 
-                      $query = "INSERT INTO [$tableName] (c1_int, c2_varchar) VALUES (36, 'Willoughby')";
+                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (36, 'Willoughby')";
                       $stmt = $conn->query($query);
                       unset($stmt);
 
-                      $query = "INSERT INTO [$tableName] (c1_int, c2_varchar) VALUES (3, 'Kirribilli')";
+                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (3, 'Kirribilli')";
                       $stmt = $conn->query($query);
                       unset($stmt);
 
-                      $query = "INSERT INTO [$tableName] (c1_int, c2_varchar) VALUES (100, 'NorthBridge')";
+                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (100, 'NorthBridge')";
                       $stmt = $conn->query($query);
                       unset($stmt);
 
@@ -115,6 +114,63 @@
             }
           ?> 
           </article>
+
+            <!-- viewmssql -->
+            <article id="viewmssql">
+                <h2 class=major> View MSSQL Items</h2>
+                <?php 
+
+                $function = $_GET["function"];
+                $comic_id = $_GET["id"];
+                if ($function == "delete") {
+                $sql = "delete from COMIC where ID = $comic_id";
+                mysql_query($sql);
+                header('Location: index.php?section=comic');
+                }
+
+                session_start();
+                if ($_SESSION['ep'] != "") {
+                    $ep = $_SESSION['ep'];
+                    $db = $_SESSION['db'];
+                    $un = $_SESSION['un'];
+                    $pa = $_SESSION['pa'];
+
+                    try {
+                      $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+                      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                      $tableName = 'Teremana';
+                      $query = "SELECT * FROM $tableName";
+                      $stmt = $conn->query($query);
+
+                      $result = $stmt-> fetchAll();
+                      $int = 0;
+                      echo "<table><th>STORE</th><th>STOCK</th><th colspan=2>OPERATIONS</th>";
+
+                      foreach( $result as $row ) {
+                            echo "<tr>";
+                            //$int ++;
+                            echo "<td> $row[Store]</td>";
+                            echo "<td> $row[Stock]</td>";
+                            echo "  <td><a href=index.php?section=Teremana&function=edit&id=$row[$int]>Edit</a></td>";
+                            echo "  <td><a href=index.php?section=Teremana&function=delete&id=$row[$int]>Delete</a></td>";
+                            echo "</tr>";
+                      }
+                      echo "</table>";
+                      echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create Teremana Store</button>";
+
+
+
+                    }
+                    catch (PDOException $e) {
+                      echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
+                    }
+
+                } else {
+                    echo nl2br("Web Server Not Connected to MSSQL");
+                } 
+                ?>
+            </article>
     </div>
     <!-- Footer -->
         <footer id="footer">
