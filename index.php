@@ -86,14 +86,6 @@
                 <h2 class=major> View MSSQL Items</h2>
                 <?php 
 
-                $function = $_GET["function"];
-                $comic_id = $_GET["id"];
-                if ($function == "delete") {
-                $sql = "delete from COMIC where ID = $comic_id";
-                mysql_query($sql);
-                header('Location: index.php?section=comic');
-                }
-
                 session_start();
                 if ($_SESSION['ep'] != "") {
                     $ep = $_SESSION['ep'];
@@ -119,17 +111,24 @@
                             echo "<td> $row[Store]</td>";
                             echo "<td> $row[Stock]</td>";
                             echo "  <td><a href=index.php?id=$row> <img src=images/pencil.png /></a> </td>";
-                            echo "  <td><a href=index.php?id=$row> <img src=images/rubbish.png /></a> </td>";
+                            echo "  <td><a href=index.php?id=$row[Store]> <img src=images/rubbish.png /></a> </td>";
                             echo "</tr>";
                       }
                       echo "</table>";
                       echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create Teremana Store</button>";
 
-
-
+                      if(isset($_GET['id'])){
+                       $store = $_GET['id']; 
+                       //$query = "DELETE FROM Teremana WHERE Store = 'Greenwich'";
+                       $query = "DELETE FROM Teremana WHERE Store = '$store'";
+                       $stmt = $conn->query($query);
+                       unset($stmt);
+                       header( "Location: index.php#viewmssql" );
+                      }
                     }
                     catch (PDOException $e) {
-                      echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
+                        //echo $e->getMessage();
+                        echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
                     }
 
                 } else {
