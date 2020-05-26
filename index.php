@@ -76,7 +76,7 @@
                 if ($_SESSION['ep'] != "") {
                     echo nl2br("<form method=post action=popmssql.php> <input type=submit name=populate value=Teremana> </form>");
                 } else {
-                    echo nl2br("Web Server Not Connected to MSSQL");
+                    echo nl2br("<strong>Web Server Not Connected to MSSQL</strong>");
                 } 
                 ?>
             </article>
@@ -85,7 +85,6 @@
             <article id="viewmssql">
                 <h2 class=major> View MSSQL Items</h2>
                 <?php 
-
                 session_start();
                 if ($_SESSION['ep'] != "") {
                     $ep = $_SESSION['ep'];
@@ -104,52 +103,50 @@
                       $result = $stmt-> fetchAll();
                       echo "<table><th>STORE</th><th>STOCK</th><th colspan=2>OPERATIONS</th>";
 
-                      foreach( $result as $row ) {
-                            echo "<tr>";
-                            echo "<td> $row[Store]</td>";
-                            echo "<td> $row[Stock]</td>";
-                            echo "  <td><a href=index.php?store=$row[Store]&stock=$row[Stock]&function=edit> <img src=images/pencil.png /></a> </td>";
-                            echo "  <td><a href=index.php?store=$row[Store]&function=delete> <img src=images/rubbish.png /></a> </td>";
-                            echo "</tr>";
+                      if ($function == ""){
+                        foreach( $result as $row ) {
+                              echo "<tr>";
+                              echo "<td> $row[Store]</td>";
+                              echo "<td> $row[Stock]</td>";
+                              echo "  <td><a href=index.php?store=$row[Store]&stock=$row[Stock]&function=edit> <img src=images/pencil.png /></a> </td>";
+                              echo "  <td><a href=index.php?store=$row[Store]&function=delete> <img src=images/rubbish.png /></a> </td>";
+                              echo "</tr>";
+                        }
+                        echo "</table>";
+                        echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create New Store</button>";
                       }
-                      echo "</table>";
-                      echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create New Store</button>";
 
                       $function = $_GET["function"];
                       $store = $_GET["store"];
                       $stock = $_GET["stock"];
 
-                      if ($function = "delete") {
+                      if ($function == "delete") {
                        $query = "DELETE FROM Teremana WHERE Store = '$store'";
                        $stmt = $conn->query($query);
                        unset($stmt);
                        header( "Location: index.php#viewmssql" );
-                      } elseif ($function = "edit") {
-                         echo "<table><th>STORE</th><th>STOCK</th><th>OPERATIONS</th>";
-                         echo "<tr>";
-                         echo "<td><input type=text name=storeupdate value=$store </></td>";
-                         echo "<td><input type=text name=stockupdate value=$stock </></td>";
-                         echo "  <td><a href=index.php?id=$row[Store]&function=edit> <img src=images/floppy.png /></a> </td>";
-                         echo "</tr>"; 
-                         echo "</table>";
-
+                       } else if ($function == "edit") {
+                          $function = "";
+                           echo "<br><br><br><br>";
+                           echo "<form name=input action=save.php method=post>";
+                           echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
+                           echo "<tr>";
+                           echo "<td><input type=text name=storeupdate value=$store </></td>";
+                           echo "<td><input type=text name=stockupdate value=$stock </></td>";
+                           echo "<td><input type=hidden name=oldstore value=$store </></td>";
+                           echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
+                           echo "</tr>"; 
+                           echo "</table>";
+                           echo "<script>window.location.href ='#viewmssql';</script>";
+                        }
                       }
-
-
-                      }
-
-
-
-                      }
-                    }
-                    catch (PDOException $e) {
+                     catch (PDOException $e) {
                         //echo $e->getMessage();
                         echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
                     }
-
                 } else {
-                    echo nl2br("Web Server Not Connected to MSSQL");
-                } 
+                    echo nl2br("<strong>Web Server Not Connected to MSSQL</strong>");
+                  } 
                 ?>
             </article>
 
