@@ -65,7 +65,7 @@
           }
         ?>
 
-                    <!-- mssql -->
+            <!-- mssql -->
             <article id="mssql">
                 <?php 
                 session_start();
@@ -104,7 +104,7 @@
 
             <!-- viewmssql -->
             <article id="viewmssql">
-                <h2 class=major> View MSSQL Items</h2>
+                <h2 class=major> View Teremana Stock</h2>
                 <?php 
                 session_start();
                 if ($_SESSION['ep'] != "") {

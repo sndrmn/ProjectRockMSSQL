@@ -40,86 +40,77 @@
 
         <!-- Main -->
         <div id="main">
-
-        <!-- mssql -->
-        <article id="mssql">
+        <article id="test">
         <?php 
         session_start();
-        if ($_SESSION['ep'] != "") {
-              $ep = $_SESSION['ep'];
-              $db = $_SESSION['db'];
-              $un = $_SESSION['un'];
-              $pa = $_SESSION['pa'];
- 
-              $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
-              $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-              $result_str = strtoupper($ep);  
-              echo nl2br("<h2 class=major> YOU DESERVE A FIST BUMP! </h2> <span class=image main><br><img src=images/fistbump.png width=200 height=200 /></span>");
-              echo nl2br("<br><br>&nbsp WEB SERVER CONNECTED TO: &nbsp <strong><i>$result_str</i></strong>");
-        } else {
-              echo nl2br("<h2 class=major> Connect to MSSQL </h2> ");
-              include ('settings-form.php');
+        if(isset($_POST['newstore'])) { 
+          $ep = $_SESSION['ep'];
+          $db = $_SESSION['db'];
+          $un = $_SESSION['un'];
+          $pa = $_SESSION['pa'];
+
+          try {
+            $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            echo "<h2 class=major> Populate MSSQL </h2>";
+            echo "<br><br><br><br><br><br><br><br>";
+            echo "<form name=input action=savenew.php method=post>";
+            echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
+            echo "<tr>";
+            echo "<td><input type=text name=newstore value='' </></td>";
+            echo "<td><input type=text name=newstock value='' </></td>";
+            echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
+            echo "</tr>"; 
+            echo "</table>";
+            echo "<script>window.location.href ='#viewmssql';</script>";
+
+          } catch (PDOException $e) {
+            echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
+            echo "<script>window.location.href ='#viewmssql';</script>";
+            //header( "Location: index.php#popmssql" );
           }
+        }
         ?>
         </article>
 
-         <!-- popmssql -->
-         <article id="popmssql">
-         <h2 class=major> Populate MSSQL </h2>
-         <span class="image main"> <img src="images/Teremana.png" alt="" /> </span> 
-        <?php
-          if(isset($_POST['populate'])) { 
-              session_start();
-              $ep = $_SESSION['ep'];
-              $db = $_SESSION['db'];
-              $un = $_SESSION['un'];
-              $pa = $_SESSION['pa'];
 
-              $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
-                      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            <!-- mssql -->
+            <article id="mssql">
+                <?php 
+                session_start();
+                if ($_SESSION['ep'] != "") {
+                    $ep = $_SESSION['ep'];
+                    $db = $_SESSION['db'];
+                    $un = $_SESSION['un'];
+                    $pa = $_SESSION['pa'];
+ 
+                    $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $result_str = strtoupper($ep);  
+                    echo nl2br("<h2 class=major> YOU DESERVE A FIST BUMP! </h2> <span class=image main><br><img src=images/fistbump.png width=200 height=200 /></span>");
+                    echo nl2br("<br><br>&nbsp WEB SERVER CONNECTED TO: &nbsp <strong><i>$result_str</i></strong>");
+                } else {
+                    echo nl2br("<h2 class=major> Connect to MSSQL </h2> ");
+                    include ('settings-form.php');
+                }
+                ?>
+                <br>
 
-              try {
-                      $tableName = 'Teremana';
-                      $query = "CREATE TABLE $tableName ([Stock] sql_variant, [Store] sql_variant)";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
+            </article>
 
-                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (10, 'Artarmon')";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
-
-                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (20, 'Greenwich')";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
-
-                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (36, 'Willoughby')";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
-
-                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (3, 'Kirribilli')";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
-
-                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (100, 'Northbridge')";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
-
-                      $query = "INSERT INTO [$tableName] (Stock, Store) VALUES (15, 'Waverton')";
-                      $stmt = $conn->query($query);
-                      unset($stmt);
-
-                      echo nl2br("Teremana SQL Table Created");
-                      //header( "Location: index.php#popmssql" );
-                      echo "<script>window.location.href ='#popmssql';</script>";
-              }
-              catch (PDOException $e) {
-                      echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
-                      echo "<script>window.location.href ='#popmssql';</script>";
-                      //header( "Location: index.php#popmssql" );
-              }
-            }
-          ?> 
-          </article>
+            <!-- popmssql -->
+            <article id="popmssql">
+                <h2 class=major> Populate MSSQL </h2>
+                <span class="image main"> <img src="images/Teremana.png" alt="" /> </span> 
+                <?php 
+                if ($_SESSION['ep'] != "") {
+                    echo nl2br("<form method=post action=popmssql.php> <input type=submit name=populate value=Teremana> </form>");
+                } else {
+                    echo nl2br("<strong>Web Server Not Connected to MSSQL</strong>");
+                } 
+                ?>
+            </article>
 
             <!-- viewmssql -->
             <article id="viewmssql">

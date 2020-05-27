@@ -83,7 +83,7 @@
 
             <!-- viewmssql -->
             <article id="viewmssql">
-                <h2 class=major> View MSSQL Items</h2>
+                <h2 class=major> View Teremana Stock</h2>
                 <?php 
                 session_start();
                 if ($_SESSION['ep'] != "") {
@@ -113,7 +113,7 @@
                               echo "</tr>";
                         }
                         echo "</table>";
-                        echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create New Store</button>";
+                        echo "  <td><a href=index.php?function=new> <img src=images/shop.png /></a> </td>";
                       }
 
                       $function = $_GET["function"];
