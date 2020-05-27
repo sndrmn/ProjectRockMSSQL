@@ -134,7 +134,8 @@
                               echo "</tr>";
                         }
                         echo "</table>";
-                        echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create New Store</button>";
+                        echo "  <td><a href=index.php?function=new> <img src=images/button.png /></a> </td>";
+                        //echo "<button onclick=window.location.href=index.php?function=new>Create New Store</button>";
                       }
 
                       $function = $_GET["function"];
@@ -149,6 +150,7 @@
                        } else if ($function == "edit") {
                           $function = "";
                            echo "<br><br><br><br>";
+                           echo "<h2 class=major> Edit Teremana Store/Stock</h2>";
                            echo "<form name=input action=save.php method=post>";
                            echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
                            echo "<tr>";
@@ -157,6 +159,19 @@
                            echo "<td><input type=hidden name=oldstore value=$store </></td>";
                            echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
                            echo "</tr>"; 
+                           echo "</table>";
+                           echo "<script>window.location.href ='#viewmssql';</script>";
+                        } else if ($function == "new") {
+                           echo "<br><br><br><br>";
+                           echo "<h2 class=major> New Teremana Store</h2>";
+                           echo "</table>";
+                           echo "<form name=input action=new.php method=post>";
+                           echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
+                           echo "<tr>";
+                           echo "<td><input type=text name=newstore  </></td>";
+                           echo "<td><input type=text name=newstock  </></td>";
+                           echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
+                           echo "</tr>";
                            echo "</table>";
                            echo "<script>window.location.href ='#viewmssql';</script>";
                         }

@@ -40,39 +40,31 @@
 
         <!-- Main -->
         <div id="main">
-        <article id="test">
         <?php 
         session_start();
         if(isset($_POST['newstore'])) { 
+          $newstore = $_POST['newstore'];
+          $newstock = $_POST['newstock'];
           $ep = $_SESSION['ep'];
           $db = $_SESSION['db'];
           $un = $_SESSION['un'];
           $pa = $_SESSION['pa'];
 
-          try {
-            $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+          $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $query = "INSERT INTO Teremana (Stock, Store) VALUES ($newstock, '$newstore')";
+          $stmt = $conn->query($query);
+          unset($stmt);
+          echo "<script>window.location.href ='#viewmssql';</script>";
 
-            echo "<h2 class=major> Populate MSSQL </h2>";
-            echo "<br><br><br><br><br><br><br><br>";
-            echo "<form name=input action=savenew.php method=post>";
-            echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
-            echo "<tr>";
-            echo "<td><input type=text name=newstore value='' </></td>";
-            echo "<td><input type=text name=newstock value='' </></td>";
-            echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
-            echo "</tr>"; 
-            echo "</table>";
-            echo "<script>window.location.href ='#viewmssql';</script>";
-
-          } catch (PDOException $e) {
-            echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
-            echo "<script>window.location.href ='#viewmssql';</script>";
-            //header( "Location: index.php#popmssql" );
+        } catch (PDOException $e) {
+          print("Error connecting to SQL Server.");
+          die(print_r($e));
           }
         }
         ?>
-        </article>
+
 
 
             <!-- mssql -->
@@ -144,7 +136,8 @@
                               echo "</tr>";
                         }
                         echo "</table>";
-                        echo "<button onclick=window.location.href=index.php?section=Teremana&function=new>Create New Store</button>";
+                        echo "  <td><a href=index.php?function=new> <img src=images/button.png /></a> </td>";
+                        //echo "<button onclick=window.location.href=index.php?function=new>Create New Store</button>";
                       }
 
                       $function = $_GET["function"];
@@ -159,6 +152,7 @@
                        } else if ($function == "edit") {
                           $function = "";
                            echo "<br><br><br><br>";
+                           echo "<h2 class=major> Edit Teremana Store/Stock</h2>";
                            echo "<form name=input action=save.php method=post>";
                            echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
                            echo "<tr>";
@@ -167,6 +161,19 @@
                            echo "<td><input type=hidden name=oldstore value=$store </></td>";
                            echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
                            echo "</tr>"; 
+                           echo "</table>";
+                           echo "<script>window.location.href ='#viewmssql';</script>";
+                        } else if ($function == "new") {
+                           echo "<br><br><br><br>";
+                           echo "<h2 class=major> New Teremana Store</h2>";
+                           echo "</table>";
+                           echo "<form name=input action=new.php method=post>";
+                           echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
+                           echo "<tr>";
+                           echo "<td><input type=text name=newstore  </></td>";
+                           echo "<td><input type=text name=newstock  </></td>";
+                           echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
+                           echo "</tr>";
                            echo "</table>";
                            echo "<script>window.location.href ='#viewmssql';</script>";
                         }

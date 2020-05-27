@@ -129,6 +129,7 @@
                        } else if ($function == "edit") {
                           $function = "";
                            echo "<br><br><br><br>";
+                           echo "<h2 class=major> Edit Teremana Store/Stock</h2>";
                            echo "<form name=input action=save.php method=post>";
                            echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
                            echo "<tr>";
@@ -140,9 +141,18 @@
                            echo "</table>";
                            echo "<script>window.location.href ='#viewmssql';</script>";
                         } else if ($function == "new") {
-                           echo "<form name=input action=save.php method=post>";
+                           echo "<br><br><br><br>";
+                           echo "<h2 class=major> New Teremana Store</h2>";
+                           echo "</table>";
+                           echo "<form name=input action=new.php method=post>";
                            echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
-
+                           echo "<tr>";
+                           echo "<td><input type=text name=newstore  </></td>";
+                           echo "<td><input type=text name=newstock  </></td>";
+                           echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
+                           echo "</tr>";
+                           echo "</table>";
+                           echo "<script>window.location.href ='#viewmssql';</script>";
                         }
                       }
                      catch (PDOException $e) {
