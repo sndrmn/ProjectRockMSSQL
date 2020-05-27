@@ -113,7 +113,8 @@
                               echo "</tr>";
                         }
                         echo "</table>";
-                        echo "  <td><a href=index.php?function=new> <img src=images/shop.png /></a> </td>";
+                        echo "  <td><a href=index.php?function=new> <img src=images/button.png /></a> </td>";
+                        //echo "<button onclick=window.location.href=index.php?function=new>Create New Store</button>";
                       }
 
                       $function = $_GET["function"];
@@ -138,6 +139,10 @@
                            echo "</tr>"; 
                            echo "</table>";
                            echo "<script>window.location.href ='#viewmssql';</script>";
+                        } else if ($function == "new") {
+                           echo "<form name=input action=save.php method=post>";
+                           echo "<table><th>STORE</th><th>STOCK</th><th>OPERATION</th>";
+
                         }
                       }
                      catch (PDOException $e) {
