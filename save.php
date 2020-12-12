@@ -32,9 +32,9 @@
             <nav>
                 <ul>
                     <li><a href="#awsrds">RDS MSSQL</a></li>
-                    <li><a href="#mssql">Connect to MSSQL</a></li>
-                    <li><a href="#popmssql">Populate MSSQL</a></li>
-                    <li><a href="#viewmssql">View MSSQL Items</a></li>
+                    <li><a href="#mssql">Azure MSSQL</a></li>
+                    <li><a href="#popmssql">Populate DB</a></li>
+                    <li><a href="#viewmssql">View Items</a></li>
                 </ul>
             </nav>
         </header>
