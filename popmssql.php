@@ -31,6 +31,7 @@
             </div>
             <nav>
                 <ul>
+                    <li><a href="#awsrds">RDS MSSQL</a></li>
                     <li><a href="#mssql">Connect to MSSQL</a></li>
                     <li><a href="#popmssql">Populate MSSQL</a></li>
                     <li><a href="#viewmssql">View MSSQL Items</a></li>
@@ -40,6 +41,30 @@
 
         <!-- Main -->
         <div id="main">
+
+        <!-- awsrds -->
+        <article id="awsrds">
+          <?php 
+                session_start();
+                if ($_SESSION['ep'] != "") {
+                    $ep = $_SESSION['ep'];
+                    $db = $_SESSION['db'];
+                    $un = $_SESSION['un'];
+                    $pa = $_SESSION['pa'];
+ 
+                    $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
+                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $result_str = strtoupper($ep);  
+                    echo nl2br("<h2 class=major> YOU DESERVE A FIST BUMP! </h2> <span class=image main><br><img src=images/fistbump.png width=200 height=200 /></span>");
+                    echo nl2br("<br><br>&nbsp WEB SERVER CONNECTED TO: &nbsp <strong><i>$result_str</i></strong>");
+                } else {
+                    echo nl2br("<h2 class=major> Connect to AWS RDS </h2> ");
+                    include ('azure-settings-form.php');
+                }
+          ?>
+                <br>
+
+          </article>
 
         <!-- mssql -->
         <article id="mssql">
