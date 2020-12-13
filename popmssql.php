@@ -194,7 +194,7 @@
                        $stmt = $conn->query($query);
                        unset($stmt);
                        //header( "Location: $currentPageUrl");
-                       echo "<script>window.location.href ='popmssql.php#viewmssql';</script>";
+                       echo "<script>window.location.href ='popmssql.php#viewmssql';</script>"; //Not using Header as it causes redirect query parameter issues.  This just works!
                        } else if ($function == "edit") {
                           $function = "";
                            echo "<br><br><br><br>";
