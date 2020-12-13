@@ -150,7 +150,7 @@
                        $query = "DELETE FROM Teremana WHERE Store = '$store'";
                        $stmt = $conn->query($query);
                        unset($stmt);
-                       header( "Location: index.php#viewmssql" );
+                       echo "<script>window.location.href ='index.php#viewmssql';</script>";
                        } else if ($function == "edit") {
                           $function = "";
                            echo "<br><br><br><br>";

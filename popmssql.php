@@ -134,13 +134,13 @@
                       unset($stmt);
 
                       echo nl2br("<strong>Teremana SQL Table Created</strong>");
-                      //header( "Location: index.php#popmssql" );
+                      //header( "Location: popmssql.php#popmssql" );
                       echo "<script>window.location.href ='#popmssql';</script>";
               }
               catch (PDOException $e) {
                       echo nl2br("<strong>Teremana SQL Table Already Exists</strong>");
                       echo "<script>window.location.href ='#popmssql';</script>";
-                      //header( "Location: index.php#popmssql" );
+                      //header( "Location: popmssql.php#popmssql" );
               }
             }
           ?> 
@@ -185,13 +185,16 @@
                       $function = $_GET["function"];
                       $store = $_GET["store"];
                       $stock = $_GET["stock"];
+                      //$currentPageUrl = 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; 
+                      //$currentPageUrl = substr($currentPageUrl, 0, strpos($currentPageUrl, "?"));
+                      //$currentPageUrl = $currentPageUrl . '#viewmssql';
 
                       if ($function == "delete") {
                        $query = "DELETE FROM Teremana WHERE Store = '$store'";
                        $stmt = $conn->query($query);
                        unset($stmt);
-                       //header( "Location: index.php#viewmssql" );
-                       echo "<script>window.location.href ='#viewmssql';</script>";
+                       //header( "Location: $currentPageUrl");
+                       echo "<script>window.location.href ='popmssql.php#viewmssql';</script>";
                        } else if ($function == "edit") {
                           $function = "";
                            echo "<br><br><br><br>";
@@ -205,7 +208,7 @@
                            echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
                            echo "</tr>"; 
                            echo "</table>";
-                           echo "<script>window.location.href ='#viewmssql';</script>";
+                           echo "<script>window.location.href ='popmssql.php#viewmssql';</script>";
                         } else if ($function == "new") {
                            echo "<br><br><br><br>";
                            echo "<h2 class=major> New Teremana Store</h2>";
@@ -218,8 +221,8 @@
                            echo "<td><input type=image src=/images/floppy.png alt=Submit></td>";
                            echo "</tr>";
                            echo "</table>";
-                           echo "<script>window.location.href ='#viewmssql';</script>";
-                        }
+                           echo "<script>window.location.href ='popmssql.php#viewmssql';</script>";
+                        }  
                       }
                      catch (PDOException $e) {
                         //echo $e->getMessage();
