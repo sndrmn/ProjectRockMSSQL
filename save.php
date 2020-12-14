@@ -31,9 +31,9 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#mssql">Connect to MSSQL</a></li>
+                    <li><a href="#mssql">Connect to DB</a></li>
                     <li><a href="#popmssql">Populate DB</a></li>
-                    <li><a href="#viewmssql">View Items</a></li>
+                    <li><a href="#viewmssql">Modify DB Items</a></li>
                 </ul>
             </nav>
         </header>
