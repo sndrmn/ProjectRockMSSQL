@@ -31,8 +31,7 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#awsrds">RDS MSSQL</a></li>
-                    <li><a href="#mssql">Azure MSSQL</a></li>
+                    <li><a href="#mssql">Connect to MSSQL</a></li>
                     <li><a href="#popmssql">Populate DB</a></li>
                     <li><a href="#viewmssql">View Items</a></li>
                 </ul>
@@ -41,41 +40,6 @@
 
         <!-- Main -->
         <div id="main">
-
-            <!-- awsrds -->
-            <article id="awsrds">
-                <?php 
-                session_start();
-                $ep = $_POST['endpoint'];
-                $db = $_POST['database'];
-                $un = $_POST['username'];
-                $pa = $_POST['password'];
-
-                $_SESSION['ep'] = $ep;
-                $_SESSION['db'] = $db;
-                $_SESSION['un'] = $un;
-                $_SESSION['pa'] = $pa;
-
-                echo nl2br("sqlcmd -S $ep -U $un -P $pa -Q CREATE DATABASE PROD");
-                $output = shell_exec("sqlcmd -S $ep -U $un -P $pa -Q 'CREATE DATABASE PROD'");
- 
-                try {
-                        $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
-                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                        $result_str = strtoupper($ep);  
-                        echo nl2br("<h2 class=major> YOU DESERVE A FIST BUMP! </h2> <span class=image main><br><img src=images/fistbump.png width=200 height=200 /></span>");
-                        echo nl2br("<br><br>&nbsp WEB SERVER CONNECTED TO: &nbsp <strong><i>$result_str</i></strong>");
-                        //echo "<script>window.location.href ='#awsrds';</script>";
-                        header( "Location: index.php#awsrds" );
-                    } 
-                catch (PDOException $e) {
-                            print("Error connecting to SQL Server.");
-                            die(print_r($e));
-                    } 
-                ?>
-                <br>
-
-            </article>
 
             <!-- mssql -->
             <article id="mssql">
