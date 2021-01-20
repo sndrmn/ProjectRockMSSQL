@@ -50,7 +50,8 @@
               $db = $_SESSION['db'];
               $un = $_SESSION['un'];
               $pa = $_SESSION['pa'];
-
+              
+              $temp = substr($ep, -3);
               if ($temp == "com") {
                 $output = shell_exec("sqlcmd -S $ep -U $un -P $pa -Q 'CREATE DATABASE PROD'");
               }
