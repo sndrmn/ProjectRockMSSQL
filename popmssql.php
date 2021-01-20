@@ -51,7 +51,9 @@
               $un = $_SESSION['un'];
               $pa = $_SESSION['pa'];
 
-              $output = shell_exec("sqlcmd -S $ep -U $un -P $pa -Q 'CREATE DATABASE PROD'");
+              if ($temp == "com") {
+                $output = shell_exec("sqlcmd -S $ep -U $un -P $pa -Q 'CREATE DATABASE PROD'");
+              }
  
               $conn = new PDO("sqlsrv:server = tcp:$ep,1433; Database = $db", "$un", "$pa");
               $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
